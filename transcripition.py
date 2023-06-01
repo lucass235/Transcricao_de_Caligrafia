@@ -2,10 +2,10 @@ import pytesseract
 from PIL import Image
 
 # Caminho para o executável do Tesseract OCR
-pytesseract.pytesseract.tesseract_cmd = r'Caminho_para_o_executável_do_Tesseract'
+pytesseract.pytesseract.tesseract_cmd = r'./'
 
 # Abrir a imagem
-imagem = Image.open('caminho_para_a_imagem.png')
+imagem = Image.open('./manuscrito.png')
 
 # Converter a imagem para escala de cinza
 imagem_cinza = imagem.convert('L')
