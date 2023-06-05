@@ -2,4 +2,6 @@ mltu
 torchsummaryX
 opencv-python
 matplotlib
+tqdm
+torch
 
