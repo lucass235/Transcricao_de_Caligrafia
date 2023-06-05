@@ -1,4 +1,3 @@
-# importação dos dados
 import os
 import tarfile
 from tqdm import tqdm
@@ -19,38 +18,39 @@ from mltu.torch.callbacks import EarlyStopping, ModelCheckpoint, TensorBoard, Mo
 from mltu.preprocessors import ImageReader
 from mltu.transformers import ImageResizer, LabelIndexer, LabelPadding, ImageShowCV2
 from mltu.augmentors import RandomBrightness, RandomRotate, RandomErodeDilate, RandomSharpen
+from mltu.annotations.images import CVImage
 
 from model import Network
 from configs import ModelConfigs
 
 
+dataset_path = "data//iam_data"
+
 dataset, vocab, max_len = [], set(), 0
-dataset_path = "data\\iam_data\\"
+
 # Preprocess the dataset by the specific IAM_Words dataset file structure
-if os.path.exists(dataset_path):
-    words = open(f"{dataset_path}words.txt", "r").readlines()
-    for line in tqdm(words):
-        if line.startswith("#"):
-            continue
+words = open(f"{dataset_path}//words.txt", "r").readlines()
+for line in tqdm(words):
+    if line.startswith("#"):
+        continue
 
-        line_split = line.split(" ")
-        if line_split[1] == "err":
-            continue
+    line_split = line.split(" ")
+    if line_split[1] == "err":
+        continue
 
-        folder1 = line_split[0][:3]
-        folder2 = "-".join(line_split[0].split("-")[:2])
-        file_name = line_split[0] + ".png"
-        label = line_split[-1].rstrip('\n')
-        rel_path = f"{dataset_path}/words/{folder1}/{folder2}/{file_name}"
-        if not os.path.exists(rel_path):
-            print(f"File not found: {rel_path}")
-            continue
+    folder1 = line_split[0][:3]
+    folder2 = "-".join(line_split[0].split("-")[:2])
+    file_name = line_split[0] + ".png"
+    label = line_split[-1].rstrip("\n")
 
-        dataset.append([rel_path, label])
-        vocab.update(list(label))
-        max_len = max(max_len, len(label))
-else:
-    print("caminho nao encontrado")
+    rel_path = f"{dataset_path}//words//{folder1}//{folder2}//{file_name}"
+    if not os.path.exists(rel_path):
+        print(f"File not found: {rel_path}")
+        continue
+
+    dataset.append([rel_path, label])
+    vocab.update(list(label))
+    max_len = max(max_len, len(label))
 
 configs = ModelConfigs()
 
@@ -64,14 +64,16 @@ data_provider = DataProvider(
     dataset=dataset,
     skip_validation=True,
     batch_size=configs.batch_size,
-    data_preprocessors=[ImageReader(image_class="PIL")],
+    data_preprocessors=[ImageReader(CVImage)],
     transformers=[
-        ImageShowCV2(),  # uncomment to show images during training
+        ImageShowCV2(),  # uncomment to show images when iterating over the data provider
         ImageResizer(configs.width, configs.height, keep_aspect_ratio=False),
         LabelIndexer(configs.vocab),
         LabelPadding(max_word_length=configs.max_text_length,
                      padding_value=len(configs.vocab))
     ],
     use_cache=True,
-    workers=1
 )
+
+for _ in data_provider:
+    pass
