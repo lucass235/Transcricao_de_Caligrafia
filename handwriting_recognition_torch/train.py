@@ -66,7 +66,7 @@ data_provider = DataProvider(
     batch_size=configs.batch_size,
     data_preprocessors=[ImageReader(CVImage)],
     transformers=[
-        ImageShowCV2(),  # uncomment to show images when iterating over the data provider
+        # ImageShowCV2(),  # uncomment to show images when iterating over the data provider
         ImageResizer(configs.width, configs.height, keep_aspect_ratio=False),
         LabelIndexer(configs.vocab),
         LabelPadding(max_word_length=configs.max_text_length,
@@ -75,5 +75,58 @@ data_provider = DataProvider(
     use_cache=True,
 )
 
-for _ in data_provider:
-    pass
+# Divisão do dataset em treino e teste (90% e 10%)
+train_dataProvider, test_dataProvider = data_provider.split(split=0.9)
+
+# Argumentação de dados
+train_dataProvider.augmentors = [
+    RandomBrightness(),
+    RandomErodeDilate(),
+    RandomSharpen(),
+    RandomRotate(angle=10),
+]
+
+network = Network(len(configs.vocab), activation="leaky_relu", dropout=0.3)
+loss = CTCLoss(blank=len(configs.vocab))
+optimizer = optim.Adam(network.parameters(), lr=configs.learning_rate)
+
+# Mostra o sumário do modelo
+# summary(network, torch.zeros((1, configs.height, configs.width, 3)))
+
+# Usar GPU
+# if torch.cuda.is_available():
+#     network = network.cuda()
+
+# Usar CPU
+network = network.cpu()
+
+# Criação do callback para o treinamento
+earlyStopping = EarlyStopping(
+    monitor="val_CER", patience=20, mode="min", verbose=1)
+modelCheckpoint = ModelCheckpoint(
+    configs.model_path + "/model.pt", monitor="val_CER", mode="min", save_best_only=True, verbose=1)
+tb_callback = TensorBoard(configs.model_path + "/logs")
+reduce_lr = ReduceLROnPlateau(
+    monitor="val_CER", factor=0.9, patience=10, verbose=1, mode="min", min_lr=1e-6)
+model2onnx = Model2onnx(
+    saved_model_path=configs.model_path + "/model.pt",
+    input_shape=(1, configs.height, configs.width, 3),
+    verbose=1,
+    metadata={"vocab": configs.vocab}
+)
+
+# Criação do modelo para o treinamento
+model = Model(network, optimizer, loss, metrics=[
+              CERMetric(configs.vocab), WERMetric(configs.vocab)])
+model.cpu()
+model.fit(
+    train_dataProvider,
+    test_dataProvider,
+    epochs=1000,
+    callbacks=[earlyStopping, modelCheckpoint,
+               tb_callback, reduce_lr, model2onnx]
+)
+
+# Save training and validation datasets as csv files
+train_dataProvider.to_csv(os.path.join(configs.model_path, "train.csv"))
+test_dataProvider.to_csv(os.path.join(configs.model_path, "val.csv"))
