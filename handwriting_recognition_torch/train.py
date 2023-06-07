@@ -1,5 +1,6 @@
 import os
 import tarfile
+import pyopencl as cl
 from tqdm import tqdm
 from io import BytesIO
 from zipfile import ZipFile
@@ -98,7 +99,11 @@ optimizer = optim.Adam(network.parameters(), lr=configs.learning_rate)
 #     network = network.cuda()
 
 # Usar CPU
-network = network.cpu()
+device = torch.device('cpu')
+network = network.to(device)
+print(torch.__version__)
+print(torch.device("cuda" if torch.cuda.is_available() else "cpu"))
+
 
 # Criação do callback para o treinamento
 earlyStopping = EarlyStopping(
@@ -118,7 +123,7 @@ model2onnx = Model2onnx(
 # Criação do modelo para o treinamento
 model = Model(network, optimizer, loss, metrics=[
               CERMetric(configs.vocab), WERMetric(configs.vocab)])
-model.cpu()
+# model.cpu()
 model.fit(
     train_dataProvider,
     test_dataProvider,
