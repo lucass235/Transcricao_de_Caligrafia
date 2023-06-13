@@ -27,10 +27,10 @@ if __name__ == "__main__":
     from tqdm import tqdm
 
     model = ImageToWordModel(
-        model_path="Models/08_handwriting_recognition_torch/202303142139/model.onnx")
+        model_path="Models/08_handwriting_recognition_torch/202306131539/model.onnx")
 
     df = pd.read_csv(
-        "Models/08_handwriting_recognition_torch/202303142139/val.csv").values.tolist()
+        "Models/08_handwriting_recognition_torch/202306131539/val.csv").values.tolist()
 
     accum_cer = []
     for image_path, label in tqdm(df):
@@ -38,9 +38,9 @@ if __name__ == "__main__":
 
         prediction_text = model.predict(image)
 
-        cer = get_cer(prediction_text, label)
+        cer, distance = get_cer(prediction_text, label)
         print(
-            f"Image: {image_path}, Label: {label}, Prediction: {prediction_text}, CER: {cer}")
+            f"Image: {image_path}, Label: {label}, Prediction: {prediction_text}, CER: {cer}, Distance: {distance}")
 
         accum_cer.append(cer)
 
