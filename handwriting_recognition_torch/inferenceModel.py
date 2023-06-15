@@ -40,7 +40,7 @@ if __name__ == "__main__":
 
         cer, distance = get_cer(prediction_text, label)
         print(
-            f"Image: {image_path}, Label: {label}, Prediction: {prediction_text}, CER: {cer}, Distance: {distance}")
+            f"Image: {image_path}, Label: {label}, Prediction: {prediction_text}, CER: {cer}, Distance: {distance} ")
 
         accum_cer.append(cer)
 
