@@ -27,10 +27,10 @@ if __name__ == "__main__":
     from tqdm import tqdm
 
     model = ImageToWordModel(
-        model_path="Models/08_handwriting_recognition_torch/202306131539/model.onnx")
+        model_path="./Models/08_handwriting_recognition_torch/202306131539/model.onnx")
 
     df = pd.read_csv(
-        "Models/08_handwriting_recognition_torch/202306131539/val.csv").values.tolist()
+        "./Models/08_handwriting_recognition_torch/202306131539/val.csv").values.tolist()
 
     accum_cer = []
     for image_path, label in tqdm(df):

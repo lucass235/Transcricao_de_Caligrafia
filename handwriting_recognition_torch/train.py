@@ -25,12 +25,12 @@ from model import Network
 from configs import ModelConfigs
 
 
-dataset_path = "data//iam_data"
+dataset_path = "../data/iam_data"
 
 dataset, vocab, max_len = [], set(), 0
 
 # Preprocess the dataset by the specific IAM_Words dataset file structure
-words = open(f"{dataset_path}//words.txt", "r").readlines()
+words = open(f"{dataset_path}/words.txt", "r").readlines()
 for line in tqdm(words):
     if line.startswith("#"):
         continue
