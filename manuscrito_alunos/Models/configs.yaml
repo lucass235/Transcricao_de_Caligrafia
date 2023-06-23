@@ -3,8 +3,7 @@ height: 32
 learning_rate: 0.002
 max_text_length: 50
 model_path: ./Models/
-train_epochs: 10
-vocab: " '()+,-.0123456789:<=>ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz\xC1\
-  \xC2\xC3\xC7\xC9\xCA\xCD\xD3\xD4\xD5\xDA\xE1\xE3\xE4\xE7\xE9\xEA\xED\xF3\xF6\xFC\
-  \u0107\u010D\u0161\u0435\u2018\u221A\u2713"
+train_epochs: 100
+vocab: " '(),-.012345679:ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz\xC1\xC2\
+  \xC3\xC7\xC9\xCA\xCD\xD3\xD4\xD5\xDA\xE1\xE3\xE7\xE9\xEA\xF3"
 width: 128
