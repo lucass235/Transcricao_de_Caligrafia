@@ -30,10 +30,10 @@ Para executar o projeto precisamos passar por 2 etapas, primeiro precisamos trei
 
 - no arquivo `text_utils.py` d a biblioteca `utils` foi modificado a função de retorno para retornar 2 parâmetros `cer` que seria a media de erros e `distance` que seria a distancia entre as palavras do texto e as palavras transcritas.
 
-## Imagens dataset IAM
+## Imagens com suas previsões 📷
 
-| ![Imagem 1](./image_readme/a01-000u-04-02.png) | ![Imagem 2](./image_readme/a01-000u-06-05.png)  | ![Imagem 3](./image_readme/a01-000x-00-04.png)  | ![Imagem 4](./image_readme/a01-000x-00-07.png)  |
-| ---------------------------------------------- | ----------------------------------------------- | ----------------------------------------------- | ----------------------------------------------- |
-| ![Imagem 5](./image_readme/a01-000x-01-02.png) | ![Imagem 6](./image_readme/a01-003-00-08.png)   | ![Imagem 7](./image_readme/a01-003-03-05.png)   | ![Imagem 8](./image_readme/a01-003x-04-09.png)  |
-| ![Imagem 9](./image_readme/a01-003u-04-02.png) | ![Imagem 10](./image_readme/a01-003u-08-06.png) | ![Imagem 11](./image_readme/a01-003u-10-06.png) | ![Imagem 12](./image_readme/a01-003x-06-01.png) |
-| ![Imagem 13](./image_readme/a01-007-01-04.png) | ![Imagem 14](./image_readme/a01-007-05-06.png)  | ![Imagem 15](./image_readme/a01-007u-05-02.png) | ![Imagem 16](./image_readme/a01-007u-06-00.png) |
+| ![Imagem 1](./image_readme/14881.jpeg)  | ![Imagem 2](./image_readme/14882.jpeg)  | ![Imagem 3](./image_readme/14883.jpeg)  | ![Imagem 4](./image_readme/14884.jpeg)  |
+| --------------------------------------- | --------------------------------------- | --------------------------------------- | --------------------------------------- |
+| ![Imagem 5](./image_readme/14885.jpeg)  | ![Imagem 6](./image_readme/14886.jpeg)  | ![Imagem 7](./image_readme/14887.jpeg)  | ![Imagem 8](./image_readme/14888.jpeg)  |
+| ![Imagem 9](./image_readme/14889.jpeg)  | ![Imagem 10](./image_readme/14890.jpeg) | ![Imagem 11](./image_readme/14891.jpeg) | ![Imagem 12](./image_readme/14892.jpeg) |
+| ![Imagem 13](./image_readme/14893.jpeg) | ![Imagem 14](./image_readme/14894.jpeg) | ![Imagem 15](./image_readme/14895.jpeg) | ![Imagem 16](./image_readme/14896.jpeg) |
